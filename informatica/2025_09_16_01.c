@@ -1,0 +1,1 @@
+/*Data una matrice quadrata, caricare la matrice a spirale*/

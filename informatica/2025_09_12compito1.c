@@ -1,14 +1,15 @@
-/*Data una matrice di valori scambiare gli elementi della diagonale 
+/*Data una matrice di valori casuali scambiare gli elementi della diagonale 
 principale con la diagonale secondaria.*/
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #define RIGHE 3
 #define COLONNE 3
 
-void riempiMatrice(int mat[][COLONNE], int righe, int colonne){
+void riempiMatriceCasuale(int mat[][COLONNE], int righe, int colonne){
     for(int i=0; i<righe; i++){
         for(int j=0; j<colonne; j++){
-            printf("Inserisci l'elemento: ");
-            scanf("%d", &mat[i][j]);
+            mat[i][j] = rand()%100+1;
         }
     }
 }
@@ -40,7 +41,8 @@ void scambiaDiagonali(int mat[][COLONNE], int  righe, int colonne){
 
 int main(){
     int matrice[RIGHE][COLONNE];
-    riempiMatrice(matrice, RIGHE, COLONNE);
+    srand(time(NULL));
+    riempiMatriceCasuale(matrice, RIGHE, COLONNE);
     stampaMatrice(matrice, RIGHE, COLONNE);
     printf("Matrice con le diagonali invertite:\n");
     scambiaDiagonali(matrice, RIGHE, COLONNE);
