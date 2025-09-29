@@ -38,7 +38,7 @@ int sommaMultipliTre(int *vett, int dim){
     return somma;
 }
 
-int contaDispari(int *vett, int dim){
+/*int contaDispari(int *vett, int dim){
     int cnt=0;
     for(int i=0; i<dim; i++){
         if(vett[i]%2==1)    cnt++;
@@ -56,6 +56,17 @@ void riempiVettoreDispari(int *vett_partenza, int *vett_destinazione, int dim_ve
             }
         }
     }
+}*/
+
+int* estraiDispari(int *vettore, int dim, int *dimDispari){
+    int *dispari=NULL;
+    *dimDispari=0;
+    for(int i=0; i<dim; i++){
+        if(vettore[i]%2==0){
+            (*dimDispari)++;
+            int *tmp = (int *)realloc(dispari, (*dimDispari)*sizeof(int));
+        }
+    }
 }
 
 int main(){
@@ -70,9 +81,10 @@ int main(){
     stampaVettore(vettore, dimensione);
     somma = sommaMultipliTre(vettore, dimensione);
     printf("\nLa somma degli elementi multipli di 3 è: %d\n", somma);
-    dimDispari = contaDispari(vettore, dimensione);
-    dispari = creaVettore(dimDispari);
-    riempiVettoreDispari(vettore, dispari, dimensione, dimDispari);
+    //dimDispari = contaDispari(vettore, dimensione);
+    //dispari = creaVettore(dimDispari);
+    //riempiVettoreDispari(vettore, dispari, dimensione, dimDispari);
+    dispari = estraiDispari(vettore, dimensione, &dimDispari);
     printf("Il vettore con i numeri dispari: ");
     stampaVettore(dispari, dimDispari);
     return 0; 
