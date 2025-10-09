@@ -3,6 +3,8 @@
         "cstdlib": "c",
         "stdlib.h": "c",
         "stdio.h": "c",
-        "libc-header-start.h": "c"
+        "libc-header-start.h": "c",
+        "string.h": "c",
+        "stddef.h": "c"
     }
 }
