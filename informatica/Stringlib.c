@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 typedef char* String;
-typedef enum {false, true} Bool;
 
 void clearBuffer(){
     int c;
