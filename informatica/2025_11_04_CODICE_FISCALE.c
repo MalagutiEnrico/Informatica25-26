@@ -46,23 +46,13 @@ String calcoloNomi(String str){         //calcola i tre caratteri del nome e del
     return tmp;
 }
 
-void calcolaAnagrafica(String* matrix){
-    for(int i=0; i<DIMANAGRAFICA; i++){
-        if(i==0)    printf("Inserisci il nome: ");
-        else        printf("Inserisci il cognome: ");
-        matrix[i] = creaStringa('\n');
-        compatta(matrix[i], lenString(matrix[i]));
-        matrix[i] = calcoloNomi(matrix[i]);
-    }
-}
-
 char calcoloMese(String str){
     char vettore[] = {'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'};
     int num = atoi(str);
-    return vettore[num];
+    return vettore[num-1];
 }
 
-char calcoloGiorno(String str, char c){
+String calcoloGiorno(String str, char c){
     if(c == 'f'){
         int num = atoi(str);
         num += 40;
@@ -71,33 +61,54 @@ char calcoloGiorno(String str, char c){
     return str;
 }
 
-void calcolaData(String *matrix, char c){
-    char dataNascita[15];
-    printf("Inserisci la data di nascita (formato gg/mm/aa): ");
-    fgets(dataNascita, 15, stdin);
+String* calcolaData(String dataNascita, char c){
+    String* tmp = (String*)malloc(DIMDATA*sizeof(String));
+    if(tmp == NULL)     exit(1);
+    int cnt=0;
     for(int i=0; i<DIMDATA; i++){
-        matrix[i] = malloc(DIMDATA*sizeof(char));
-        matrix[i] = strtok(dataNascita, "/\0");
-        printf("%s\n", matrix[i]);
+        int j=0;
+        tmp[i] = malloc(DIMDATA*sizeof(char));
+        while(dataNascita[cnt] != '/' && dataNascita[cnt] != '\0'){
+            tmp[i][j++] = dataNascita[cnt++];
+        }
+        tmp[i][j] = '\0';
+        cnt++;
     }
-    //matrix[1] = calcoloMese(matrix[1]);
-    //matrix[2] = calcoloGiorno(matrix[2], c);
+    tmp[0] = calcoloGiorno(tmp[0], c);
+    tmp[1][0] = calcoloMese(tmp[1]);
+    return tmp;
 }
 
-String compattaCodice(char dest, String* strNomi, String* strData){
-
+void unisciCodice(char *codiceFiscale, String nome, String cognome, String* dataNascita){
+    int i=0, index=3;
+    for(i; i<index; i++){
+        codiceFiscale[i] = cognome[i];
+    }
+    i++;
+    index+=3;
+    for(i; i<index; i++){
+        codiceFiscale[i] = nome[i];
+    }
+    codiceFiscale[DIM] ='\0';
 }
 
 int main(){
     char codiceFiscale[DIM+1], genere;
-    String *anagrafica = malloc(2*sizeof(String));
-    String *dataNascitaSep = (String)malloc(DIMDATA*sizeof(char));
+    String nome, cognome, dataNascita;
+    String* matDataNascita;
     printf("*****Calcolo Codice Fiscale*****\n");
-    calcolaAnagrafica(anagrafica);
-    printf("Inserisci il genere(m-maschio, f-femmina): ");
+    printf("Inserisci il nome: ");
+    nome = creaStringa('\n');
+    printf("Inserisci il cognome: ");
+    cognome = creaStringa('\n');
+    printf("Inserisci la data di nascita (formato gg/mm/aa): ");
+    dataNascita = creaStringa('\n');
+    printf("Inserisci il genere (m-maschio, f-femmina): ");
     scanf(" %c", &genere);
-    calcolaData(dataNascitaSep, genere);
-    compattaCodice(codiceFiscale, anagrafica, dataNascitaSep);
+    nome = calcoloNomi(nome);
+    cognome = calcoloNomi(cognome);
+    matDataNascita = calcolaData(dataNascita, genere);
+    unisciCodice(codiceFiscale, nome, cognome, matDataNascita);
     printf("Il codice fiscale stampato: %s\n", codiceFiscale);
     return 0;
 }
