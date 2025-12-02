@@ -9,14 +9,22 @@ typedef struct{
     int punteggio;
 }Squadra;
 
+void clearBuffer(){
+    char c;
+    while((c = getchar()) != '\n'){}
+}
+
 void inserisciValori(Squadra *teams, int num){
     for(int i=0; i<num; i++){
         printf("Inserisci il nome della squadra: ");
         fgets(teams[i].nome, 20, stdin);
+        //clearBuffer();
         printf("Inserisci il colore della squadra: ");
         fgets(teams[i].colore, 20, stdin);
+        //clearBuffer();
         printf("Inserisci il punteggio: ");
         scanf("%d", &teams[i].punteggio);
+        clearBuffer();
     }
 }
 
@@ -30,15 +38,19 @@ int main(){
     do{
         printf("Inserisci il numero di squadre: ");
         scanf("%d", &num);
-        if(num<0 || num>10)
-            printf("Il numero di squadre non è valido");
-    }while(num<0 || num>10);
+        clearBuffer();
+        if(num<=0 || num>10)
+            printf("Il numero di squadre non è valido\n");
+    }while(num<=0 || num>10);
     teams = (Squadra*)malloc(num*sizeof(Squadra));
+    if(teams == NULL)   
+        exit(1);
     inserisciValori(teams, num);
-    printf("Squadre con punteggio minore di 100: ");
+    printf("\nSquadre con punteggio minore di 100:\n");
     for(int i=0; i<num; i++){
         if(teams[i].punteggio < 100)
             stampaSquadra(&teams[i]);
     }
+    free(teams);
     return 0;
 }
