@@ -59,6 +59,8 @@ int main(){
         printf("Inserisci il numero di squadre: ");
         scanf("%d", &num);
         clearBuffer();
+        if(num<=0 || num>10)
+            printf("Numero di squadre non valido.\n");
     }while(num<=0 || num>10);
     teams = (squadra*)malloc(num*sizeof(squadra));
     for(int i=0; i<num; i++){
@@ -66,7 +68,7 @@ int main(){
         riempiSquadra(&teams[i]);
     }
     for(int i=0; i<num; i++){
-        if(teams[i].punteggio<100 && teams[i].coach.titoli > 10){
+        if(teams[i].punteggio<100 && teams[i].coach.titoli > 30){
             printf("***********************\n");
             printf("SQUADRA %d\n", i+1);
             stampaSquadra(teams[i]);
