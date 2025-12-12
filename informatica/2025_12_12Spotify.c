@@ -7,6 +7,7 @@ typedef struct Canzone{
     char artista[20];
     int durata;
     int id;
+    Canzone* next;
 }Canzone;
 
 typedef struct{
