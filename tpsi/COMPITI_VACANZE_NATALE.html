@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Compiti Vacanze di Natale</title>
+        <style>
+            body{
+                text-align: center;
+            }
+        </style>
+        <script>
+            var somma=0;
+
+            function calcolaSomma(){
+                var num1 = document.getElementById("num1").value;
+                var num2 = document.getElementById("num2").value;
+                num1 = parseFloat(num1);
+                num2 = parseFloat(num2);
+                somma = num1 + num2;
+                document.getElementById("risultato").innerHTML = somma;
+            }
+
+            function controllaParita(){
+                if(somma%2 == 0){
+                    document.getElementById("risultato").style.backgroundColor = "green";
+                    alert("La somma è pari");
+                }
+                else{
+                    document.getElementById("risultato").style.backgroundColor = "red";
+                    alert("La somma è dispari");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Somma pari Somma dispari</h1>
+        <form>
+            <input type="number" id="num1"><br>
+            <input type="number" id="num2"><br>
+            <input type="button" id="somma" value="calcola Somma" onclick="calcolaSomma();"><br>
+            <input type="button" id="paridispari" value="Controlla se pari o dispari" onclick="controllaParita(somma);"><br>
+        </form>
+        <div id="risultato"></div>
+    </body>
+</html>
