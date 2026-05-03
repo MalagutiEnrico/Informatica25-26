@@ -20,7 +20,7 @@ typedef struct{
 
 void clear_buffer(){                //funzione che pulisce il buffer di stdin
     char c;
-    while((c = getchar) != '\n'){}
+    while((c = getchar()) != '\n'){}
 }
 
 void stampa_menu(int* scelta){      //stampa il menu e permetti all'utente di scegliere
@@ -33,16 +33,16 @@ void stampa_menu(int* scelta){      //stampa il menu e permetti all'utente di sc
 Libro set_libro(){                  //riempie i campi di un libro e li fa inserire all'utente
     Libro l;
     printf("Inserisci il titolo del libro: ");
-    scanf("%[^\n]", l.titolo);
+    scanf(" %[^\n]", l.titolo);
     clear_buffer();
     printf("Inserisci l'autore del libro: ");
-    scanf("%[^\n]", l.autore);
+    scanf(" %[^\n]", l.autore);
     clear_buffer();
     printf("Inserisci l'ISBN del libro: ");
-    scanf("%[^\n]", l.ISBN);
+    scanf(" %[^\n]", l.ISBN);
     clear_buffer();
     printf("Inserisci l'anno di pubblicazione del libro: ");
-    scanf("%d", l.anno);
+    scanf("%d", &l.anno);
     clear_buffer();
     return l;
 }
@@ -136,7 +136,7 @@ void modifica_ISBN(char* titolo){       //modifica l'isbn di un libro ricercato 
     while(fread(&l, sizeof(Libro), 1, f)){
         if(strcmp(l.titolo, titolo) == 0){
             printf("Inserisci il nuovo ISBN: ");
-            scanf("%[^\n]", l.ISBN);
+            scanf(" %[^\n]", l.ISBN);
             fseek(f, -sizeof(Libro), SEEK_CUR);
             fwrite(&l, sizeof(Libro), 1, f);
             printf("Libro modificato\n");
@@ -159,7 +159,7 @@ void separa_libri(){                //separa i libri nei due file
         printf("Errore nell'apertura del file\n");
         exit(1);
     }
-    FILE* f_magg = fopen("2026_04_28_biblioteca_magg2000.dat", "rb");
+    FILE* f_magg = fopen("2026_04_28_biblioteca_magg2000.dat", "wb");
     if(f_magg == NULL){
         printf("Errore nell'apertura del file\n");
         exit(1);
@@ -178,5 +178,35 @@ void separa_libri(){                //separa i libri nei due file
 
 int main(){
     char ISBN[20], autore[30];
-    int* scelta;
+    int scelta;
+    do{
+        stampa_menu(&scelta);
+        switch(scelta){
+            case 1:
+                aggiungi_libro();
+                break;
+            case 2:
+                printf("Inserisci l'ISBN del libro da cercare: ");
+                scanf(" %[^\n]", ISBN);
+                ricerca_libro(ISBN);
+                break;
+            case 3:
+                printf("Inserisci il titolo del libro da modificare: ");
+                scanf(" %[^\n]", autore);
+                modifica_ISBN(autore);
+                break;
+            case 4:
+                separa_libri();
+                break;
+            case 5:
+                stampa_biblioteca();
+                break;
+            case 0:
+                printf("Programma terminato\n");
+                break;
+            default:
+                printf("Scelta effettuata non valida\n");
+        }
+    }while(scelta != 0);
+    return 0;
 }
